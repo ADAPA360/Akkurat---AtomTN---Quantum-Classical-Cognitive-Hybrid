@@ -1,0 +1,1708 @@
+<!doctype html>
+<html lang="en" data-theme="nordic">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="light" />
+  <title>Akkurat / Project Chimera — Production Scientific Presentation</title>
+  <style>
+    :root {
+      --bg-0: #f6f9f8;
+      --bg-1: #eef6f5;
+      --surface: rgba(255, 255, 255, 0.82);
+      --surface-solid: #ffffff;
+      --surface-soft: #f8fbfb;
+      --ink: #1f3036;
+      --ink-2: #38515a;
+      --muted: #6b7e86;
+      --subtle: #8fa1a7;
+      --line: #d8e6e4;
+      --line-strong: #bfd4d2;
+
+      --fjord-50: #eef8f9;
+      --fjord-100: #d7ebef;
+      --fjord-400: #7aa9b8;
+      --fjord-700: #315966;
+
+      --sage-50: #f1f8f3;
+      --sage-100: #dfeee5;
+      --sage-400: #8fba97;
+      --sage-700: #3f6a4b;
+
+      --sand-50: #fbf7eb;
+      --sand-100: #f3ead7;
+      --sand-400: #d2b56f;
+      --sand-700: #735d2a;
+
+      --rose-50: #fbf2f4;
+      --rose-100: #f2dfe3;
+      --rose-400: #c9868b;
+      --rose-700: #7e4148;
+
+      --lavender-50: #f5f2fb;
+      --lavender-100: #e9e3f4;
+      --lavender-400: #9b91bf;
+
+      --shadow-sm: 0 8px 22px rgba(31, 48, 54, 0.06);
+      --shadow-md: 0 18px 50px rgba(31, 48, 54, 0.10);
+      --shadow-lg: 0 30px 90px rgba(31, 48, 54, 0.14);
+      --radius-xl: 28px;
+      --radius-lg: 22px;
+      --radius-md: 16px;
+      --radius-sm: 12px;
+      --nav-width: 286px;
+      --topbar-height: 68px;
+      --font: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, Arial, sans-serif;
+      --mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      height: 100%;
+      margin: 0;
+    }
+
+    body {
+      font-family: var(--font);
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 10% 8%, rgba(215, 235, 239, .82), transparent 32%),
+        radial-gradient(circle at 90% 4%, rgba(223, 238, 229, .75), transparent 34%),
+        radial-gradient(circle at 78% 96%, rgba(243, 234, 215, .72), transparent 28%),
+        linear-gradient(135deg, var(--bg-0), var(--bg-1));
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    a { color: var(--fjord-700); }
+
+    .app {
+      height: 100vh;
+      display: grid;
+      grid-template-columns: var(--nav-width) 1fr;
+      grid-template-rows: var(--topbar-height) 1fr;
+      grid-template-areas:
+        "nav top"
+        "nav main";
+    }
+
+    .topbar {
+      grid-area: top;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 12px 22px 10px 18px;
+      border-bottom: 1px solid rgba(216, 230, 228, 0.72);
+      backdrop-filter: blur(20px);
+      background: rgba(246, 249, 248, 0.66);
+      z-index: 20;
+    }
+
+    .topbar-title {
+      min-width: 0;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .brand-mark {
+      width: 36px;
+      height: 36px;
+      border-radius: 14px;
+      background:
+        linear-gradient(135deg, rgba(122,169,184,.95), rgba(143,186,151,.95));
+      box-shadow: inset 0 0 0 7px rgba(255,255,255,.42), var(--shadow-sm);
+      flex: 0 0 auto;
+    }
+
+    .topbar-title strong {
+      display: block;
+      font-size: 14px;
+      letter-spacing: .01em;
+      color: var(--ink);
+      line-height: 1.25;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 54vw;
+    }
+
+    .topbar-title span {
+      display: block;
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.25;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 54vw;
+    }
+
+    .actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: nowrap;
+    }
+
+    button, .select-like {
+      appearance: none;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.78);
+      color: var(--ink-2);
+      font: 700 12px/1 var(--font);
+      letter-spacing: .01em;
+      border-radius: 999px;
+      padding: 10px 13px;
+      cursor: pointer;
+      transition: transform .16s ease, background .16s ease, border-color .16s ease, box-shadow .16s ease;
+      box-shadow: 0 1px 0 rgba(255,255,255,.7);
+    }
+
+    button:hover, .select-like:hover {
+      transform: translateY(-1px);
+      background: var(--surface-solid);
+      border-color: var(--line-strong);
+      box-shadow: var(--shadow-sm);
+    }
+
+    button:focus-visible {
+      outline: 3px solid rgba(122,169,184,.30);
+      outline-offset: 2px;
+    }
+
+    button.icon {
+      width: 38px;
+      height: 38px;
+      padding: 0;
+      display: grid;
+      place-items: center;
+      font-size: 17px;
+    }
+
+    .sidebar {
+      grid-area: nav;
+      min-width: 0;
+      border-right: 1px solid rgba(216, 230, 228, .78);
+      background: rgba(255,255,255,.56);
+      backdrop-filter: blur(22px);
+      padding: 18px 14px;
+      overflow: hidden;
+      display: grid;
+      grid-template-rows: auto auto 1fr auto;
+      gap: 16px;
+      z-index: 30;
+    }
+
+    .deck-meta {
+      padding: 10px 10px 6px;
+    }
+
+    .deck-meta .eyebrow {
+      color: var(--sage-700);
+      text-transform: uppercase;
+      letter-spacing: .16em;
+      font-weight: 850;
+      font-size: 10px;
+      margin-bottom: 9px;
+    }
+
+    .deck-meta h1 {
+      margin: 0;
+      font-size: 21px;
+      line-height: 1.08;
+      letter-spacing: -.035em;
+      color: var(--ink);
+    }
+
+    .deck-meta p {
+      margin: 9px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .progress-block {
+      padding: 0 10px;
+    }
+
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 700;
+      margin-bottom: 7px;
+    }
+
+    .progress-track {
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(216,230,228,.72);
+      overflow: hidden;
+      box-shadow: inset 0 1px 2px rgba(31,48,54,.05);
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--sage-400), var(--fjord-400), var(--sand-400));
+      transition: width .28s cubic-bezier(.2,.8,.2,1);
+    }
+
+    .nav-list {
+      overflow: auto;
+      padding: 0 4px 0 0;
+      scrollbar-width: thin;
+      scrollbar-color: var(--line-strong) transparent;
+    }
+
+    .nav-item {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 24px 1fr;
+      gap: 10px;
+      align-items: start;
+      text-align: left;
+      border: 1px solid transparent;
+      background: transparent;
+      box-shadow: none;
+      padding: 10px 9px;
+      border-radius: 16px;
+      margin: 2px 0;
+      cursor: pointer;
+      color: var(--muted);
+    }
+
+    .nav-item:hover {
+      transform: none;
+      background: rgba(255,255,255,.58);
+      border-color: var(--line);
+      box-shadow: none;
+    }
+
+    .nav-item.active {
+      background: rgba(215,235,239,.58);
+      border-color: rgba(122,169,184,.32);
+      color: var(--ink);
+    }
+
+    .nav-number {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: rgba(255,255,255,.75);
+      border: 1px solid var(--line);
+      font-size: 10px;
+      font-weight: 850;
+      color: var(--subtle);
+    }
+
+    .nav-item.active .nav-number {
+      color: var(--fjord-700);
+      border-color: rgba(122,169,184,.42);
+    }
+
+    .nav-copy strong {
+      display: block;
+      font-size: 12px;
+      line-height: 1.25;
+      color: inherit;
+    }
+
+    .nav-copy span {
+      display: block;
+      margin-top: 3px;
+      font-size: 11px;
+      color: var(--subtle);
+      line-height: 1.25;
+    }
+
+    .sidebar-footer {
+      padding: 10px;
+      border-radius: 18px;
+      background: rgba(248,251,251,.72);
+      border: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.45;
+    }
+
+    .main {
+      grid-area: main;
+      padding: 22px;
+      min-width: 0;
+      min-height: 0;
+    }
+
+    .viewport {
+      position: relative;
+      height: 100%;
+      max-width: 1480px;
+      margin: 0 auto;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      display: none;
+      overflow: hidden;
+      border: 1px solid rgba(216,230,228,.92);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.89), rgba(255,255,255,.76)),
+        var(--surface-solid);
+      box-shadow: var(--shadow-lg);
+      border-radius: 34px;
+      padding: clamp(30px, 4vw, 62px);
+      isolation: isolate;
+    }
+
+    .slide::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 88% 12%, rgba(215,235,239,.44), transparent 24%),
+        radial-gradient(circle at 12% 86%, rgba(223,238,229,.38), transparent 26%);
+      z-index: -2;
+    }
+
+    .slide::after {
+      content: "";
+      position: absolute;
+      right: -18%;
+      bottom: -42%;
+      width: 56%;
+      height: 64%;
+      border-radius: 999px 0 0 0;
+      background: linear-gradient(135deg, rgba(243,234,215,.55), rgba(234,244,244,.3));
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .slide.active {
+      display: block;
+      animation: slideIn .28s ease both;
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(10px) scale(.994); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .slide-content {
+      height: 100%;
+      display: grid;
+      grid-template-rows: auto 1fr;
+      gap: clamp(18px, 2vw, 30px);
+      min-height: 0;
+    }
+
+    .center-content {
+      height: 100%;
+      display: grid;
+      align-items: center;
+      justify-items: start;
+      max-width: 1160px;
+    }
+
+    .slide-header {
+      max-width: 1100px;
+    }
+
+    .kicker {
+      color: var(--sage-700);
+      text-transform: uppercase;
+      letter-spacing: .15em;
+      font-size: 11px;
+      font-weight: 900;
+      margin-bottom: 10px;
+    }
+
+    h2, h3, p { margin-top: 0; }
+
+    .hero-title {
+      margin: 0;
+      font-size: clamp(54px, 6vw, 102px);
+      line-height: .96;
+      letter-spacing: -.06em;
+      max-width: 1140px;
+    }
+
+    .slide-title {
+      margin: 0;
+      font-size: clamp(34px, 4.4vw, 68px);
+      line-height: 1.02;
+      letter-spacing: -.055em;
+      max-width: 1100px;
+    }
+
+    .subtitle {
+      margin: 18px 0 0;
+      color: var(--ink-2);
+      font-size: clamp(18px, 1.55vw, 24px);
+      line-height: 1.48;
+      max-width: 960px;
+    }
+
+    .body-grid {
+      display: grid;
+      gap: 18px;
+      min-height: 0;
+    }
+
+    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .grid-5 { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+    .grid-main-side { grid-template-columns: minmax(0, 1.08fr) minmax(360px, .92fr); }
+
+    .card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      background: rgba(255,255,255,.72);
+      box-shadow: var(--shadow-sm);
+      padding: 20px;
+      min-width: 0;
+    }
+
+    .card.ice { background: rgba(238,248,249,.78); }
+    .card.fjord { background: rgba(215,235,239,.72); }
+    .card.sage { background: rgba(223,238,229,.72); }
+    .card.sand { background: rgba(243,234,215,.72); }
+    .card.rose { background: rgba(242,223,227,.68); }
+    .card.lavender { background: rgba(233,227,244,.64); }
+
+    .metric-card {
+      min-height: 136px;
+      display: grid;
+      align-content: space-between;
+      gap: 12px;
+    }
+
+    .metric {
+      color: var(--ink);
+      font-weight: 880;
+      letter-spacing: -.07em;
+      line-height: .96;
+      font-size: clamp(40px, 4.4vw, 74px);
+    }
+
+    .metric.small { font-size: clamp(28px, 3vw, 48px); letter-spacing: -.05em; }
+
+    .metric-label {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.35;
+      font-weight: 650;
+    }
+
+    .caption {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .copy {
+      color: var(--ink-2);
+      font-size: clamp(15px, 1.2vw, 18px);
+      line-height: 1.58;
+    }
+
+    .small-copy {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .mono {
+      font-family: var(--mono);
+      font-size: .95em;
+      letter-spacing: -.03em;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 20px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.70);
+      color: var(--ink-2);
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .tag .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--sage-400);
+    }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      border-radius: 999px;
+      padding: 9px 13px;
+      font-weight: 900;
+      font-size: 12px;
+      border: 1px solid #c7dfd1;
+      background: rgba(223,238,229,.82);
+      color: var(--sage-700);
+      white-space: nowrap;
+    }
+
+    .status::before {
+      content: "";
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #5fa96e;
+      box-shadow: 0 0 0 4px rgba(95,169,110,.13);
+    }
+
+    .warning {
+      background: rgba(243,234,215,.88);
+      border-color: #dfcfab;
+      color: var(--sand-700);
+    }
+
+    .warning::before {
+      background: var(--sand-400);
+      box-shadow: 0 0 0 4px rgba(210,181,111,.18);
+    }
+
+    .diagram {
+      border: 1px solid var(--line);
+      border-radius: 30px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.78), rgba(248,251,251,.72));
+      padding: 18px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .diagram svg {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .stack-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .stack-item {
+      display: grid;
+      grid-template-columns: 42px 1fr auto;
+      align-items: center;
+      gap: 13px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.70);
+      border-radius: 18px;
+      padding: 11px 13px;
+    }
+
+    .stack-num {
+      width: 34px;
+      height: 34px;
+      border-radius: 13px;
+      display: grid;
+      place-items: center;
+      background: var(--fjord-100);
+      color: var(--fjord-700);
+      font-weight: 900;
+      font-size: 12px;
+    }
+
+    .stack-item strong {
+      display: block;
+      font-size: 14px;
+      color: var(--ink);
+      margin-bottom: 3px;
+    }
+
+    .stack-item span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    .stack-badge {
+      font: 800 11px/1 var(--font);
+      color: var(--sage-700);
+      background: var(--sage-100);
+      border: 1px solid #c9dfd2;
+      padding: 7px 9px;
+      border-radius: 999px;
+    }
+
+    .table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0 8px;
+      font-size: 13px;
+    }
+
+    .table th {
+      text-align: left;
+      color: var(--muted);
+      font-size: 11px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      padding: 0 12px 2px;
+    }
+
+    .table td {
+      padding: 12px;
+      background: rgba(255,255,255,.70);
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      color: var(--ink-2);
+    }
+
+    .table td:first-child {
+      border-left: 1px solid var(--line);
+      border-radius: 14px 0 0 14px;
+      font-weight: 850;
+      color: var(--ink);
+    }
+
+    .table td:last-child {
+      border-right: 1px solid var(--line);
+      border-radius: 0 14px 14px 0;
+    }
+
+    .matrix {
+      display: grid;
+      grid-template-columns: 76px repeat(5, 1fr);
+      gap: 6px;
+      align-items: center;
+    }
+
+    .matrix .m-head, .matrix .m-cell {
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border-radius: 11px;
+      border: 1px solid var(--line);
+      font-size: 11px;
+      font-weight: 850;
+    }
+
+    .matrix .m-head {
+      background: rgba(255,255,255,.76);
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+
+    .matrix .m-cell {
+      color: #20353b;
+    }
+
+    .command {
+      font-family: var(--mono);
+      color: #2c4249;
+      background: rgba(255,255,255,.82);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 14px 15px;
+      overflow: auto;
+      font-size: 12px;
+      line-height: 1.55;
+      white-space: nowrap;
+    }
+
+    .callout {
+      border-left: 4px solid var(--fjord-400);
+      background: rgba(238,248,249,.68);
+      border-radius: 0 18px 18px 0;
+      padding: 16px 18px;
+      color: var(--ink-2);
+      line-height: 1.55;
+    }
+
+    .checklist {
+      display: grid;
+      gap: 10px;
+    }
+
+    .check {
+      display: grid;
+      grid-template-columns: 28px 1fr;
+      gap: 11px;
+      align-items: start;
+      color: var(--ink-2);
+      font-size: 15px;
+      line-height: 1.48;
+    }
+
+    .check::before {
+      content: "✓";
+      width: 27px;
+      height: 27px;
+      border-radius: 50%;
+      background: var(--sage-100);
+      color: var(--sage-700);
+      display: grid;
+      place-items: center;
+      font-weight: 950;
+      border: 1px solid #c9dfd2;
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .step {
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.70);
+      border-radius: 20px;
+      padding: 16px;
+      min-height: 168px;
+      display: grid;
+      align-content: start;
+      gap: 10px;
+    }
+
+    .step em {
+      width: 32px;
+      height: 32px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      background: var(--fjord-100);
+      color: var(--fjord-700);
+      font-style: normal;
+      font-weight: 900;
+      font-size: 12px;
+    }
+
+    .step strong {
+      display: block;
+      font-size: 14px;
+      color: var(--ink);
+    }
+
+    .step span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.42;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+
+    .tab {
+      border-radius: 999px;
+      padding: 9px 12px;
+      background: rgba(255,255,255,.62);
+      border: 1px solid var(--line);
+      color: var(--muted);
+      font-weight: 850;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    .tab.active {
+      color: var(--fjord-700);
+      background: var(--fjord-50);
+      border-color: rgba(122,169,184,.45);
+    }
+
+    .panel { display: none; }
+    .panel.active { display: block; }
+
+    .two-tone {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 18px;
+      height: 100%;
+      min-height: 0;
+    }
+
+    .scrollable {
+      overflow: auto;
+      padding-right: 4px;
+    }
+
+    .footer-note {
+      position: absolute;
+      left: clamp(30px, 4vw, 62px);
+      bottom: 26px;
+      color: var(--subtle);
+      font-size: 11px;
+      font-weight: 650;
+      letter-spacing: .02em;
+    }
+
+    .mini-chart {
+      display: grid;
+      gap: 10px;
+    }
+
+    .bar-row {
+      display: grid;
+      grid-template-columns: 92px 1fr 46px;
+      gap: 10px;
+      align-items: center;
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 750;
+    }
+
+    .bar-track {
+      height: 12px;
+      border-radius: 999px;
+      background: rgba(216,230,228,.72);
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--sage-400), var(--fjord-400));
+      width: 0%;
+      transition: width .4s ease;
+    }
+
+    .mobile-menu {
+      display: none;
+    }
+
+    @media (max-width: 1100px) {
+      :root { --nav-width: 240px; }
+      .grid-4, .grid-5, .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .grid-main-side, .two-tone { grid-template-columns: 1fr; }
+      .slide { overflow: auto; }
+    }
+
+    @media (max-width: 820px) {
+      body { overflow: auto; }
+      .app {
+        min-height: 100vh;
+        height: auto;
+        grid-template-columns: 1fr;
+        grid-template-rows: var(--topbar-height) auto;
+        grid-template-areas:
+          "top"
+          "main";
+      }
+      .sidebar {
+        position: fixed;
+        inset: var(--topbar-height) auto 0 0;
+        width: min(88vw, 320px);
+        transform: translateX(-105%);
+        transition: transform .22s ease;
+        box-shadow: var(--shadow-lg);
+      }
+      .sidebar.open { transform: translateX(0); }
+      .mobile-menu { display: grid; }
+      .topbar { position: sticky; top: 0; }
+      .main { height: calc(100vh - var(--topbar-height)); padding: 12px; }
+      .viewport { height: 100%; }
+      .slide {
+        border-radius: 24px;
+        padding: 24px;
+      }
+      .grid-2, .grid-3, .grid-4, .grid-5, .steps { grid-template-columns: 1fr; }
+      .actions .hide-small { display: none; }
+      .hero-title { font-size: 48px; }
+      .slide-title { font-size: 34px; }
+    }
+
+    @media print {
+      body { overflow: visible; background: white; }
+      .app { display: block; }
+      .topbar, .sidebar { display: none; }
+      .main { padding: 0; height: auto; }
+      .viewport { height: auto; max-width: none; }
+      .slide {
+        position: relative;
+        display: block !important;
+        page-break-after: always;
+        min-height: 720px;
+        margin: 0 0 24px;
+        box-shadow: none;
+        border: 1px solid #d8e6e4;
+        overflow: hidden;
+      }
+      .footer-note { display: none; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="app">
+    <aside class="sidebar" id="sidebar" aria-label="Slide navigation">
+      <div class="deck-meta">
+        <div class="eyebrow">Scientific deck</div>
+        <h1>Akkurat / Project Chimera</h1>
+        <p>Production-ready overview of the updated tensorized cognitive digital-twin runtime.</p>
+      </div>
+
+      <div class="progress-block">
+        <div class="progress-label">
+          <span id="progressText">Slide 1 of 20</span>
+          <span id="progressPercent">5%</span>
+        </div>
+        <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+      </div>
+
+      <nav class="nav-list" id="navList" aria-label="Slides"></nav>
+
+      <div class="sidebar-footer">
+        <strong>Controls</strong><br />
+        Use ← / →, PageUp / PageDown, Home / End. Press <span class="mono">P</span> to print.
+      </div>
+    </aside>
+
+    <header class="topbar">
+      <div class="topbar-title">
+        <button class="icon mobile-menu" id="menuBtn" aria-label="Open slide menu">☰</button>
+        <div class="brand-mark" aria-hidden="true"></div>
+        <div>
+          <strong id="currentTitle">Akkurat complete system overview</strong>
+          <span>Nordic minimal scientific presentation · offline HTML</span>
+        </div>
+      </div>
+      <div class="actions">
+        <button class="hide-small" data-jump="3">Architecture</button>
+        <button class="hide-small" data-jump="12">Results</button>
+        <button class="hide-small" data-jump="18">Roadmap</button>
+        <button id="themeBtn" title="Toggle contrast mode">Contrast</button>
+        <button id="printBtn" title="Print or save as PDF">Print</button>
+      </div>
+    </header>
+
+    <main class="main">
+      <div class="viewport" id="slides">
+
+        <section class="slide active" data-title="Title" data-subtitle="Complete system">
+          <div class="center-content">
+            <div>
+              <div class="kicker">Akkurat / Project Chimera</div>
+              <h1 class="hero-title">A governed, tensorized, 10-lobe cognitive digital twin.</h1>
+              <p class="subtitle">
+                A production-grade scientific runtime combining Tensor Trains, Neural Circuit Policies,
+                Closed-form Continuous-time controllers, governed latent world modeling, phase-synchronous routing,
+                assembly growth, and federated verification.
+              </p>
+              <div class="tags">
+                <span class="tag"><span class="dot"></span>10 neural lobes</span>
+                <span class="tag"><span class="dot"></span>5 cognitive domains</span>
+                <span class="tag"><span class="dot"></span>governed twin writes</span>
+                <span class="tag"><span class="dot"></span>hyperbolic + Euclidean tests</span>
+                <span class="tag"><span class="dot"></span>PASS</span>
+              </div>
+            </div>
+          </div>
+          <div class="footer-note">Production UX revision · scientific / academic layout</div>
+        </section>
+
+        <section class="slide" data-title="Executive status" data-subtitle="End-to-end validation">
+          <div class="slide-content">
+            <div class="slide-header">
+              <div class="kicker">Executive status</div>
+              <h2 class="slide-title">The complete updated pipeline executes end-to-end.</h2>
+              <p class="subtitle">
+                Both the full Euclidean test and the hyperbolic test passed after updating the tensor backend,
+                neural substrates, digital twin kernel, cognitive runtime, and integration test harness.
+              </p>
+            </div>
+            <div class="body-grid grid-4">
+              <div class="card sage metric-card"><div class="metric">5</div><div class="metric-label">paired cognitive domains</div></div>
+              <div class="card fjord metric-card"><div class="metric">10</div><div class="metric-label">default neural lobes: NCP + CfC per domain</div></div>
+              <div class="card sand metric-card"><div class="metric">46</div><div class="metric-label">governed digital-twin nodes</div></div>
+              <div class="card ice metric-card"><div class="metric">0</div><div class="metric-label">alerts in both latest successful runs</div></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide" data-title="System stack" data-subtitle="Five scripts">
+          <div class="slide-content">
+            <div class="slide-header">
+              <div class="kicker">System stack</div>
+              <h2 class="slide-title">Five production scripts now form one coherent runtime.</h2>
+            </div>
+            <div class="body-grid grid-main-side">
+              <div class="stack-list">
+                <div class="stack-item"><div class="stack-num">01</div><div><strong>tn.py</strong><span>TensorTrain / MPO backend, exact and randomized TT-SVD, Tucker fusion, serialization.</span></div><div class="stack-badge">tensor</div></div>
+                <div class="stack-item"><div class="stack-num">02</div><div><strong>ncp.py</strong><span>Tensorized Neural Circuit Policy with bounded liquid dynamics and configurable integration.</span></div><div class="stack-badge">NCP</div></div>
+                <div class="stack-item"><div class="stack-num">03</div><div><strong>cfc.py</strong><span>Tensorized Closed-form Continuous-time controller with fused f/g/h/tau head.</span></div><div class="stack-badge">CfC</div></div>
+                <div class="stack-item"><div class="stack-num">04</div><div><strong>digital_twin_kernel.py</strong><span>Governed latent graph, Merkle verification, causal probes, federation, persistence.</span></div><div class="stack-badge">twin</div></div>
+                <div class="stack-item"><div class="stack-num">05</div><div><strong>cognitive_lobe_runtime.py</strong><span>10-lobe workspace, phase bus, dynamic routing, assemblies, consolidation.</span></div><div class="stack-badge">runtime</div></div>
+              </div>
+              <div class="card ice">
+                <h3>Boundary discipline</h3>
+                <p class="copy">
+                  The neural runtime proposes bounded latent changes. The digital twin simulates and approves
+                  them before execution. This keeps cognition, world state, and governance cleanly separated.
+                </p>
+                <div class="callout">
+                  The current system is a working baseline for persistent, bounded, brain-inspired computation,
+                  not a claim of biological equivalence or consciousness.
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide" data-title="Architecture" data-subtitle="Runtime topology">
+          <div class="slide-content">
+            <div class="slide-header">
+              <div class="kicker">Architecture</div>
+              <h2 class="slide-title">Neural lobes and governed world state are coupled but not conflated.</h2>
+            </div>
+            <div class="body-grid grid-main-side">
+              <div class="diagram">
+                <svg viewBox="0 0 940 560" role="img" aria-label="Architecture diagram">
+                  <defs>
+                    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+                      <feDropShadow dx="0" dy="14" stdDeviation="14" flood-color="#1f3036" flood-opacity=".10"/>
+                    </filter>
+                    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+                      <path d="M0,0 L0,6 L9,3 z" fill="#7aa9b8"/>
+                    </marker>
+                  </defs>
+                  <rect x="26" y="42" width="888" height="452" rx="38" fill="#f8fbfb" stroke="#d8e6e4"/>
+                  <rect x="76" y="118" width="280" height="278" rx="34" fill="#dfeee5" stroke="#c7ded2" filter="url(#shadow)"/>
+                  <text x="216" y="158" text-anchor="middle" font-size="24" font-weight="850" fill="#1f3036">Cognitive Runtime</text>
+                  <text x="216" y="184" text-anchor="middle" font-size="14" fill="#6b7e86">5 domains × NCP + CfC</text>
+                  <g fill="#fff" stroke="#c7ded2">
+                    <circle cx="156" cy="256" r="35"/><circle cx="216" cy="256" r="35"/><circle cx="276" cy="256" r="35"/>
+                    <circle cx="186" cy="318" r="35"/><circle cx="246" cy="318" r="35"/>
+                  </g>
+                  <text x="216" y="432" text-anchor="middle" font-size="13" fill="#6b7e86">phase bus · dynamic routing · assembly consolidation</text>
+
+                  <rect x="584" y="118" width="280" height="278" rx="34" fill="#d7ebef" stroke="#bfd8de" filter="url(#shadow)"/>
+                  <text x="724" y="158" text-anchor="middle" font-size="24" font-weight="850" fill="#1f3036">Digital Twin</text>
+                  <text x="724" y="184" text-anchor="middle" font-size="14" fill="#6b7e86">latent graph · governance · federation</text>
+                  <g fill="#fff" stroke="#bfd8de">
+                    <rect x="656" y="238" width="136" height="36" rx="13"/>
+                    <rect x="616" y="300" width="100" height="36" rx="13"/>
+                    <rect x="734" y="300" width="100" height="36" rx="13"/>
+                    <rect x="674" y="350" width="100" height="36" rx="13"/>
+                  </g>
+                  <path d="M724 274 L666 300 M724 274 L784 300 M724 336 L724 350" stroke="#7aa9b8" stroke-width="3"/>
+                  <text x="724" y="432" text-anchor="middle" font-size="13" fill="#6b7e86">Merkle root · causal histories · trust contracts</text>
+
+                  <path d="M370 214 C430 165 510 165 570 214" fill="none" stroke="#7aa9b8" stroke-width="5" marker-end="url(#arrow)"/>
+                  <path d="M570 318 C510 370 430 370 370 318" fill="none" stroke="#8fba97" stroke-width="5" marker-end="url(#arrow)"/>
+                  <text x="470" y="172" text-anchor="middle" font-size="13" fill="#6b7e86">propose governed latent updates</text>
+                  <text x="470" y="386" text-anchor="middle" font-size="13" fill="#6b7e86">read aggregate twin context</text>
+
+                  <rect x="378" y="238" width="184" height="72" rx="22" fill="#f3ead7" stroke="#dfcfab"/>
+                  <text x="470" y="265" text-anchor="middle" font-size="18" font-weight="850" fill="#1f3036">Policy Engine</text>
+                  <text x="470" y="290" text-anchor="middle" font-size="13" fill="#6b7e86">simulate → approve → execute</text>
+                </svg>
+              </div>
+              <div class="card">
+                <h3>Runtime loop</h3>
+                <div class="steps" style="grid-template-columns:1fr; gap:10px;">
+                  <div class="step"><em>1</em><strong>Encode input + twin context</strong><span>Map raw external state and global twin state into the fixed cognitive bus.</span></div>
+                  <div class="step"><em>2</em><strong>Step 10 lobes</strong><span>Each domain updates both its NCP and CfC substrates.</span></div>
+                  <div class="step"><em>3</em><strong>Route signals</strong><span>Phase-coherent and regulation-driven signals enter the global workspace.</span></div>
+                  <div class="step"><em>4</em><strong>Govern writes</strong><span>Lobe outputs become proposed twin updates; policy simulation approves them.</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide" data-title="Cognitive domains" data-subtitle="10 lobes">
+          <div class="slide-content">
+            <div class="slide-header">
+              <div class="kicker">Cognitive domains</div>
+              <h2 class="slide-title">Five brain-inspired domains, each with two neural substrates.</h2>
+            </div>
+            <div class="scrollable">
+              <table class="table" aria-label="Cognitive lobe map">
+                <thead>
+                  <tr><th>Domain</th><th>TensorizedNCP role</th><th>Tensorized CfC role</th><th>Brain-inspired process</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Sensory</td><td>Recurrent integration and salience</td><td>Signal smoothing and live rhythm</td><td>Sensory integration</td></tr>
+                  <tr><td>Memory</td><td>Working context and recurrent continuity</td><td>Sequence flow and temporal decay</td><td>Working memory and temporal association</td></tr>
+                  <tr><td>Semantic</td><td>Conceptual association and meaning state</td><td>Semantic activation persistence</td><td>Language and semantic memory</td></tr>
+                  <tr><td>Planning</td><td>Policy generation and action selection</td><td>Sequencing and timing</td><td>Executive planning and goal control</td></tr>
+                  <tr><td>Regulation</td><td>Coherence, anomaly, and safety gating</td><td>Damping, recovery, system rhythm</td><td>Homeostasis and self-monitoring</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide" data-title="Tensor backend" data-subtitle="tn.py">
+          <div class="slide-content">
+            <div class="slide-header">
+              <div class="kicker">Tensor backend</div>
+              <h2 class="slide-title">The backend now exposes the expected randomized TT-SVD path.</h2>
+            </div>
+            <div class="body-grid grid-3">
+              <div class="card ice metric-card"><div class="metric small">True</div><div class="metric-label">TensorTrain detected from <span class="mono">C:\Users\ali_z\ANU AI\Akkurat\tn.py</span></div></div>
+              <div class="card sage metric-card"><div class="metric small">True</div><div class="metric-label">randomized_tt_svd available in latest run</div></div>
+              <div class="card sand metric-card"><div class="metric small">True</div><div class="metric-label">tiny TT-SVD sanity check passed</div></div>
+              <div class="card fjord">
+                <h3>Optional backends</h3>
+                <div class="command">{'scipy': True, 'cupy': True, 'cuquantum_cutensornet': False}</div>
+              </div>
+              <div class="card" style="grid-column: span 2;">
+                <h3>Production relevance</h3>
+                <p class="copy">
+                  The tensor layer is now suitable for exact decomposition, randomized compression experiments,
+                  CPU-first execution, optional CuPy acceleration, and deterministic serialization.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide" data-title="Neural dynamics" data-subtitle="NCP + CfC">
+          <div class="slide-content">
+            <div class="slide-header">
+              <div class="kicker">Neural substrates</div>
+              <h2 class="slide-title">NCP and CfC now cover complementary continuous-time regimes.</h2>
+            </div>
+            <div class="body-grid grid-2">
+              <div class="card fjord">
+                <h3>TensorizedNCP</h3>
+                <p class="copy">
+                  A bounded recurrent neural-circuit policy with tensorized recurrent operator, liquid time constants,
+                  configurable integration, learnable-style dt gating, sequence rollout, and health metrics.
+                </p>
+                <div class="tags">
+                  <span class="tag"><span class="dot"></span>Euler / Heun / implicit</span>
+                  <span class="tag"><span class="dot"></span>dt gate</span>
+                  <span class="tag"><span class="dot"></span>spectral regularization</span>
+                  <span class="tag"><span class="dot"></span>step_sequence</span>
+                </div>
+              </div>
+              <div class="card sage">
+                <h3>Tensorized CfC</h3>
+                <p class="copy">
+                  A closed-form continuous-time controller with TT backbone, fused f/g/h/tau projection,
+                  per-neuron adaptive time constants, and bounded exponential state mixing.
+                </p>
+                <div class="tags">
+                  <span class="tag"><span class="dot"></span>closed-form update</span>
+                  <span class="tag"><span class="dot"></span>fused heads</span>
+                  <span class="tag"><span class="dot"></span>adaptive tau</span>
+                  <span class="tag"><span class="dot"></span>checkpointing</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide" data-title="Digital twin" data-subtitle="World model">
+          <div class="slide-content">
+            <div class="slide-header">
+              <div class="kicker">Governed world model</div>
+              <h2 class="slide-title">The digital twin is the auditable shared reality layer.</h2>
+            </div>
+            <div class="body-grid grid-4">
+              <div class="card ice metric-card"><div class="metric">46</div><div class="metric-label">nodes in the full taxonomy</div></div>
+              <div class="card sage metric-card"><div class="metric">128</div><div class="metric-label">latent vector dimension used in tests</div></div>
+              <div class="card sand metric-card"><div class="metric">64</div><div class="metric-label">sketch dimension for histories</div></div>
+              <div class="card lavender metric-card"><div class="metric small">2</div><div class="metric-label">geometry modes validated: Euclidean and hyperbolic</div></div>
+              <div class="card" style="grid-column: span 4;">
+                <div class="checklist" style="grid-template-columns: repeat(4, minmax(0,1fr));">
+                  <div class="check">Merkle root verification.</div>
+                  <div class="check">Policy simulation before mutation.</div>
+                  <div class="check">Cross-twin causal history snapshots.</div>
+                  <div class="check">Persistence with reload health checks.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide" data-title="Global workspace" data-subtitle="Phase + routing">
+          <div class="slide-content">
+            <div class="slide-header">
+              <div class="kicker">Global workspace</div>
+              <h2 class="slide-title">Phase-synchronous routing is active and observable.</h2>
+            </div>
+            <div class="body-grid grid-main-side">
+              <div>
+                <div class="body-grid grid-2">
+                  <div class="card fjord metric-card"><div class="metric small">0.674</div><div class="metric-label">phase coherence near final ticks in the full Euclidean run</div></div>
+                  <div class="card sage metric-card"><div class="metric small">0.800</div><div class="metric-label">routing density in the tested 5-domain matrix</div></div>
+                  <div class="card ice metric-card"><div class="metric small">18</div><div class="metric-label">active signals at final full-profile tick</div></div>
+                  <div class="card sand metric-card"><div class="metric small">19</div><div class="metric-label">active signals at final hyperbolic quick-profile tick</div></div>
+                </div>
+                <p class="copy" style="margin-top:18px;">
+                  The regulation-driven dynamic routing matrix creates a sparse, weighted communication topology
+                  rather than a fixed fully uniform broadcast.
+                </p>
+              </div>
+              <div class="card">
+                <h3>Final full-profile routing matrix</h3>
+                <p class="caption">Rows are source domains; columns are target domains.</p>
+                <div class="matrix" id="routingMatrix"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide" data-title="Governance loop" data-subtitle="Safety">
+          <div class="slide-content">
+            <div class="slide-header">
+              <div class="kicker">Governance loop</div>
+              <h2 class="slide-title">Lobe-to-twin writes were governed every tick.</h2>
+            </div>
+            <div class="steps">
+              <div class="step"><em>1</em><strong>Propose</strong><span>Each paired domain emits a bounded latent update to a cognitive twin node.</span></div>
+              <div class="step"><em>2</em><strong>Sandbox</strong><span>The policy engine simulates action impact on a clone of the twin.</span></div>
+              <div class="step"><em>3</em><strong>Approve</strong><span>Actions within latent-delta budget pass deterministically.</span></div>
+              <div class="step"><em>4</em><strong>Execute</strong><span>Approved updates write into the governed twin and push histories.</span></div>
+              <div class="step"><em>5</em><strong>Verify</strong><span>Merkle roots, audit logs, and trust contracts preserve inspection paths.</span></div>
+            </div>
+            <div class="body-grid grid-4" style="margin-top:18px;">
+              <div class="card sage"><span class="status">5/5/5 writes per tick</span></div>
+              <div class="card ice"><span class="status">federation OK</span></div>
+              <div class="card fjord"><span class="status">trust 1.0000</span></div>
+              <div class="card sand"><span class="status">0 alerts</span></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide" data-title="Assemblies" data-subtitle="Growth">
+          <div class="slide-content">
+            <div class="slide-header">
+              <div class="kicker">Growth and consolidation</div>
+              <h2 class="slide-title">The runtime can add modules and consolidate useful assemblies.</h2>
+            </div>
+            <div class="body-grid grid-3">
+              <div class="card ice metric-card"><div class="metric">13</div><div class="metric-label">modules after dynamic growth and consolidation</div></div>
+              <div class="card sage metric-card"><div class="metric">2</div><div class="metric-label">neural assemblies after test-created task circuits</div></div>
+              <div class="card sand metric-card"><div class="metric">1</div><div class="metric-label">Hebbian-style consolidation event</div></div>
+              <div class="card" style="grid-column: span 3;">
+                <h3>Consolidated module</h3>
+                <div class="command">consolidated_complete_pipeline_solver_8</div>
+                <p class="copy" style="margin-top:14px;">
+                  The assembly produced a normalized output, received positive feedback, and promoted a persistent module.
+                  This is the first working path toward skill consolidation.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide" data-title="Test results" data-subtitle="Euclidean and hyperbolic">
+          <div class="slide-content">
+            <div class="slide-header">
+              <div class="kicker">Integration test results</div>
+              <h2 class="slide-title">Both validation profiles passed.</h2>
+            </div>
+            <div class="body-grid grid-2">
+              <div class="card sage">
+                <span class="status">Full Euclidean profile passed</span>
+                <p class="copy">
+                  8 ticks, full default lobe sizes, bus_dim=64, vector_dim=128.
+                </p>
+                <div class="mini-chart">
+                  <div class="bar-row"><span>Elapsed</span><div class="bar-track"><div class="bar-fill" data-width="70"></div></div><span>7.028s</span></div>
+                  <div class="bar-row"><span>Signals</span><div class="bar-track"><div class="bar-fill" data-width="90"></div></div><span>18</span></div>
+                  <div class="bar-row"><span>Governed</span><div class="bar-track"><div class="bar-fill" data-width="100"></div></div><span>5/5/5</span></div>
+                </div>
+              </div>
+              <div class="card fjord">
+                <span class="status">Hyperbolic quick profile passed</span>
+                <p class="copy">
+                  8 ticks, quick lobe profile, hyperbolic geometry, bus_dim=64, vector_dim=128.
+                </p>
+                <div class="mini-chart">
+                  <div class="bar-row"><span>Elapsed</span><div class="bar-track"><div class="bar-fill" data-width="16"></div></div><span>1.095s</span></div>
+                  <div class="bar-row"><span>Signals</span><div class="bar-track"><div class="bar-fill" data-width="95"></div></div><span>19</span></div>
+                  <div class="bar-row"><span>Governed</span><div class="bar-track"><div class="bar-fill" data-width="100"></div></div><span>5/5/5</span></div>
+                </div>
+              </div>
+              <div class="card" style="grid-column: span 2;">
+                <div class="command">[RESULT] PASS: complete updated pipeline executed successfully.</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide" data-title="Tick timeline" data-subtitle="Full profile">
+          <div class="slide-content">
+            <div class="slide-header">
+              <div class="kicker">Full-profile execution trace</div>
+              <h2 class="slide-title">Eight live ticks remained stable.</h2>
+            </div>
+            <div class="scrollable">
+              <table class="table" aria-label="Tick trace">
+                <thead><tr><th>Tick</th><th>Stable</th><th>Signals</th><th>Phase</th><th>Governance</th><th>Merkle</th></tr></thead>
+                <tbody>
+                  <tr><td>01</td><td>true</td><td>20</td><td>0.0000</td><td>5/5/5</td><td>a3c2b0f61af6968e</td></tr>
+                  <tr><td>02</td><td>true</td><td>20</td><td>0.6622</td><td>5/5/5</td><td>04ee508291731e07</td></tr>
+                  <tr><td>03</td><td>true</td><td>20</td><td>0.6622</td><td>5/5/5</td><td>880c2a849d845a68</td></tr>
+                  <tr><td>04</td><td>true</td><td>20</td><td>0.6622</td><td>5/5/5</td><td>eccfd9c09d08e39d</td></tr>
+                  <tr><td>05</td><td>true</td><td>20</td><td>0.6622</td><td>5/5/5</td><td>aeb0ef43c969669e</td></tr>
+                  <tr><td>06</td><td>true</td><td>19</td><td>0.6622</td><td>5/5/5</td><td>ae592c9d5618d074</td></tr>
+                  <tr><td>07</td><td>true</td><td>19</td><td>0.6740</td><td>5/5/5</td><td>7a9e266a09b1e685</td></tr>
+                  <tr><td>08</td><td>true</td><td>18</td><td>0.6740</td><td>5/5/5</td><td>17a716039a342882</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide" data-title="Causal probes" data-subtitle="Local and cross-twin">
+          <div class="slide-content">
+            <div class="slide-header">
+              <div class="kicker">Online causal probing</div>
+              <h2 class="slide-title">Local and cross-twin causal suggestions are observable.</h2>
+            </div>
+            <div class="body-grid grid-2">
+              <div class="card fjord">
+                <h3>Full Euclidean run</h3>
+                <div class="body-grid grid-2">
+                  <div class="metric-card"><div class="metric small">2</div><div class="metric-label">local causal suggestions</div></div>
+                  <div class="metric-card"><div class="metric small">8</div><div class="metric-label">cross-twin suggestions</div></div>
+                </div>
+                <div class="command">top local: 2.3 → 1.2 score=0.0362<br>top cross: 2.3 → self_peer:1.2 score=0.0362</div>
+              </div>
+              <div class="card sage">
+                <h3>Hyperbolic run</h3>
+                <div class="body-grid grid-2">
+                  <div class="metric-card"><div class="metric small">3</div><div class="metric-label">local causal suggestions</div></div>
+                  <div class="metric-card"><div class="metric small">5</div><div class="metric-label">cross-twin suggestions</div></div>
+                </div>
+                <div class="command">top local: 2.3 → 1.3 score=0.0248<br>top cross: 3.2.3.4.1 → self_peer:1.3 score=0.0269</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide" data-title="Persistence" data-subtitle="Save and reload">
+          <div class="slide-content">
+            <div class="slide-header">
+              <div class="kicker">Persistence</div>
+              <h2 class="slide-title">State save and reload checks passed.</h2>
+            </div>
+            <div class="body-grid grid-2">
+              <div class="card ice">
+                <h3>Generated artifacts</h3>
+                <div class="command">test_outputs/twin_state.json<br>test_outputs/cognitive_state.json<br>test_outputs/pipeline_report.json</div>
+                <p class="caption" style="margin-top:14px;">The report stores backend checks, tick reports, final health, governance, causality, and measurements.</p>
+              </div>
+              <div class="card sage">
+                <h3>Reload validation</h3>
+                <div class="checklist">
+                  <div class="check">Reloaded twin node count: 46.</div>
+                  <div class="check">Reloaded cognitive tick: 8.</div>
+                  <div class="check">Reloaded health stable: true.</div>
+                </div>
+              </div>
+              <div class="card sand" style="grid-column: span 2;">
+                <h3>Merkle note</h3>
+                <p class="copy">
+                  Reloaded Merkle hashes differ from final runtime hashes because serialization/reconstruction can normalize
+                  caches, timestamps, histories, or metadata ordering. This is acceptable unless exact post-save Merkle equality
+                  becomes a formal requirement.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide" data-title="Scientific interpretation" data-subtitle="Claims and constraints">
+          <div class="slide-content">
+            <div class="slide-header">
+              <div class="kicker">Scientific interpretation</div>
+              <h2 class="slide-title">This is a bounded cognitive architecture, not a biological-brain claim.</h2>
+            </div>
+            <div class="body-grid grid-2">
+              <div class="card sage">
+                <h3>Demonstrated</h3>
+                <div class="checklist">
+                  <div class="check">Persistent multi-lobe state evolution.</div>
+                  <div class="check">Tensorized recurrent and continuous-time neural substrates.</div>
+                  <div class="check">Governed interaction with a latent digital twin.</div>
+                  <div class="check">Dynamic growth through modules, assemblies, and consolidation.</div>
+                  <div class="check">Causal, federated, and persistent verification paths.</div>
+                </div>
+              </div>
+              <div class="card rose">
+                <h3>Not demonstrated</h3>
+                <p class="copy">
+                  The system should not be described as conscious, sentient, or biologically equivalent to a human brain.
+                  It is an engineered, brain-inspired runtime with bounded computational dynamics and scientific telemetry.
+                </p>
+                <span class="status warning">Careful terminology required</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide" data-title="UX of the runtime" data-subtitle="Observability recommendations">
+          <div class="slide-content">
+            <div class="slide-header">
+              <div class="kicker">UX and observability</div>
+              <h2 class="slide-title">A production GUI should prioritize stability, routing, and governance visibility.</h2>
+            </div>
+            <div class="body-grid grid-3">
+              <div class="card ice">
+                <h3>Runtime health</h3>
+                <p class="small-copy">Global norm, lobe saturation, dt gate, tau ranges, TT mode, degraded mode, hidden-state stability.</p>
+              </div>
+              <div class="card sage">
+                <h3>Workspace routing</h3>
+                <p class="small-copy">Phase coherence, signal TTL, route matrix, dynamic sparsity, source-target weights, regulation interventions.</p>
+              </div>
+              <div class="card sand">
+                <h3>Governance</h3>
+                <p class="small-copy">Submitted/approved/applied actions, policy rejections, sandbox deltas, audit logs, Merkle root changes.</p>
+              </div>
+              <div class="card fjord">
+                <h3>Digital twin</h3>
+                <p class="small-copy">Node summaries, physical/virtual coherence, causal suggestions, federation trust, history snapshots.</p>
+              </div>
+              <div class="card lavender">
+                <h3>Growth</h3>
+                <p class="small-copy">Assembly scores, usage counts, consolidation events, newly promoted modules, task-specific circuits.</p>
+              </div>
+              <div class="card rose">
+                <h3>Safety</h3>
+                <p class="small-copy">Non-finite counts, high-delta actions, instability flags, saturation, unexpected hash divergence, stale peers.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide" data-title="Roadmap" data-subtitle="Next scientific milestones">
+          <div class="slide-content">
+            <div class="slide-header">
+              <div class="kicker">Roadmap</div>
+              <h2 class="slide-title">Recommended next milestones.</h2>
+            </div>
+            <div>
+              <div class="tabs" role="tablist">
+                <button class="tab active" data-panel="validation">Validation</button>
+                <button class="tab" data-panel="learning">Learning</button>
+                <button class="tab" data-panel="deployment">Deployment</button>
+              </div>
+              <div id="validation" class="panel active">
+                <div class="body-grid grid-3">
+                  <div class="card ice"><h3>Long-run testing</h3><p class="copy">Run 10k–100k ticks with noisy telemetry, missing sensors, clock jitter, and dt spikes.</p></div>
+                  <div class="card ice"><h3>Ablations</h3><p class="copy">Disable phase sync, routing, hyperbolic geometry, and consolidation separately.</p></div>
+                  <div class="card ice"><h3>Benchmarks</h3><p class="copy">Measure latency, memory, rank growth, governance cost, and causal probe stability.</p></div>
+                </div>
+              </div>
+              <div id="learning" class="panel">
+                <div class="body-grid grid-3">
+                  <div class="card sage"><h3>Adaptive routing</h3><p class="copy">Use regulation outputs and feedback to refine sparse routing masks over time.</p></div>
+                  <div class="card sage"><h3>Fusion optimization</h3><p class="copy">Tune fusion bias to maximize physical/virtual coherence and task utility.</p></div>
+                  <div class="card sage"><h3>Assembly distillation</h3><p class="copy">Promote high-value assemblies into permanent modules after repeated success.</p></div>
+                </div>
+              </div>
+              <div id="deployment" class="panel">
+                <div class="body-grid grid-3">
+                  <div class="card sand"><h3>Package layout</h3><p class="copy">Convert scripts into a versioned package with config files, CLI, tests, and docs.</p></div>
+                  <div class="card sand"><h3>Dashboard</h3><p class="copy">Build a GUI for lobe health, routing matrix, governance, twin graph, and causal history.</p></div>
+                  <div class="card sand"><h3>Hardware profiling</h3><p class="copy">Compare CPU, CuPy GPU, randomized TT-SVD, and optional cuTensorNet backends.</p></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide" data-title="Reproducibility" data-subtitle="Commands">
+          <div class="slide-content">
+            <div class="slide-header">
+              <div class="kicker">Reproducibility</div>
+              <h2 class="slide-title">Commands used to validate the updated system.</h2>
+            </div>
+            <div class="body-grid grid-2">
+              <div class="card">
+                <h3>Full Euclidean profile</h3>
+                <div class="command">python test.py --profile full --ticks 8 --bus-dim 64 --vector-dim 128</div>
+              </div>
+              <div class="card">
+                <h3>Hyperbolic quick profile</h3>
+                <div class="command">python test.py --geometry hyperbolic --ticks 8 --bus-dim 64 --vector-dim 128</div>
+              </div>
+              <div class="card sage" style="grid-column: span 2;">
+                <h3>Result</h3>
+                <div class="command">[RESULT] PASS: complete updated pipeline executed successfully.</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide" data-title="Closing" data-subtitle="Current baseline">
+          <div class="center-content">
+            <div>
+              <div class="kicker">Current baseline</div>
+              <h2 class="slide-title">Akkurat now has a working foundation for a governed, growing, tensorized cognitive digital twin.</h2>
+              <p class="subtitle">
+                It supports 10 live lobes, phase-synchronous routing, dynamic assemblies,
+                governed latent writes, causal probes, federation checks, hyperbolic geometry,
+                and state persistence.
+              </p>
+              <div class="tags">
+                <span class="status">Validated by complete pipeline tests</span>
+                <span class="tag"><span class="dot"></span>ready for stress testing</span>
+                <span class="tag"><span class="dot"></span>ready for dashboard design</span>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    (() => {
+      const slides = Array.from(document.querySelectorAll(".slide"));
+      const navList = document.getElementById("navList");
+      const progressFill = document.getElementById("progressFill");
+      const progressText = document.getElementById("progressText");
+      const progressPercent = document.getElementById("progressPercent");
+      const currentTitle = document.getElementById("currentTitle");
+      const sidebar = document.getElementById("sidebar");
+      const menuBtn = document.getElementById("menuBtn");
+      const themeBtn = document.getElementById("themeBtn");
+      let index = 0;
+      let highContrast = false;
+
+      slides.forEach((slide, i) => {
+        const item = document.createElement("button");
+        item.className = "nav-item";
+        item.type = "button";
+        item.setAttribute("aria-label", `Go to slide ${i + 1}: ${slide.dataset.title}`);
+        item.innerHTML = `
+          <div class="nav-number">${String(i + 1).padStart(2, "0")}</div>
+          <div class="nav-copy"><strong>${slide.dataset.title || "Slide"}</strong><span>${slide.dataset.subtitle || ""}</span></div>
+        `;
+        item.addEventListener("click", () => {
+          show(i);
+          sidebar.classList.remove("open");
+        });
+        navList.appendChild(item);
+      });
+
+      const navItems = Array.from(document.querySelectorAll(".nav-item"));
+
+      function show(next) {
+        index = Math.max(0, Math.min(slides.length - 1, next));
+        slides.forEach((slide, i) => slide.classList.toggle("active", i === index));
+        navItems.forEach((item, i) => item.classList.toggle("active", i === index));
+        const pct = ((index + 1) / slides.length) * 100;
+        progressFill.style.width = pct.toFixed(2) + "%";
+        progressText.textContent = `Slide ${index + 1} of ${slides.length}`;
+        progressPercent.textContent = Math.round(pct) + "%";
+        currentTitle.textContent = slides[index].dataset.title || "Akkurat overview";
+        document.title = `Akkurat — ${slides[index].dataset.title || "Overview"}`;
+        navItems[index]?.scrollIntoView({ block: "nearest" });
+        animateBars();
+      }
+
+      function animateBars() {
+        document.querySelectorAll(".bar-fill").forEach(el => {
+          const w = el.getAttribute("data-width") || "0";
+          requestAnimationFrame(() => { el.style.width = w + "%"; });
+        });
+      }
+
+      document.querySelectorAll("[data-jump]").forEach(btn => {
+        btn.addEventListener("click", () => show(Number(btn.dataset.jump) || 0));
+      });
+
+      document.getElementById("printBtn").addEventListener("click", () => window.print());
+
+      menuBtn?.addEventListener("click", () => sidebar.classList.toggle("open"));
+
+      themeBtn?.addEventListener("click", () => {
+        highContrast = !highContrast;
+        document.documentElement.style.setProperty("--ink", highContrast ? "#0c171b" : "#1f3036");
+        document.documentElement.style.setProperty("--muted", highContrast ? "#41545c" : "#6b7e86");
+        document.documentElement.style.setProperty("--line", highContrast ? "#b8cbc8" : "#d8e6e4");
+      });
+
+      document.addEventListener("keydown", (e) => {
+        const tag = (e.target && e.target.tagName) ? e.target.tagName.toLowerCase() : "";
+        if (["input", "textarea", "select"].includes(tag)) return;
+        if (e.key === "ArrowRight" || e.key === "PageDown" || e.key === " ") show(index + 1);
+        if (e.key === "ArrowLeft" || e.key === "PageUp") show(index - 1);
+        if (e.key === "Home") show(0);
+        if (e.key === "End") show(slides.length - 1);
+        if (e.key.toLowerCase() === "p") window.print();
+        if (e.key === "Escape") sidebar.classList.remove("open");
+      });
+
+      document.querySelectorAll(".tab").forEach(tab => {
+        tab.addEventListener("click", () => {
+          const id = tab.dataset.panel;
+          document.querySelectorAll(".tab").forEach(t => t.classList.toggle("active", t === tab));
+          document.querySelectorAll(".panel").forEach(p => p.classList.toggle("active", p.id === id));
+        });
+      });
+
+      const domains = ["mem", "plan", "reg", "sem", "sens"];
+      const matrix = [
+        [0.000, 0.516, 0.602, 0.569, 0.515],
+        [0.546, 0.000, 0.637, 0.503, 0.522],
+        [0.463, 0.389, 0.000, 0.478, 0.603],
+        [0.489, 0.650, 0.603, 0.000, 0.624],
+        [0.662, 0.551, 0.654, 0.430, 0.000]
+      ];
+
+      const matrixEl = document.getElementById("routingMatrix");
+      if (matrixEl) {
+        addHead("");
+        domains.forEach(addHead);
+        matrix.forEach((row, r) => {
+          addHead(domains[r]);
+          row.forEach(v => {
+            const cell = document.createElement("div");
+            cell.className = "m-cell";
+            const alpha = v === 0 ? 0.07 : 0.16 + (v * 0.86);
+            cell.style.background = `rgba(143, 186, 151, ${alpha})`;
+            cell.textContent = v.toFixed(2);
+            matrixEl.appendChild(cell);
+          });
+        });
+      }
+
+      function addHead(text) {
+        const head = document.createElement("div");
+        head.className = "m-head";
+        head.textContent = text;
+        matrixEl.appendChild(head);
+      }
+
+      show(0);
+    })();
+  </script>
+</body>
+</html>

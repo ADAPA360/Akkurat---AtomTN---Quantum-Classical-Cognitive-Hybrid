@@ -1,6 +1,7 @@
-import { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import ASINetwork from "./components/ASINetwork";
 import LobeDashboard from "./components/LobeDashboard";
+import PlanetarySectors from "./components/PlanetarySectors";
 import { TelemetryPayload } from "./types";
 import { Terminal, Cpu, Database, Command, Settings, Key, X } from "lucide-react";
 import { motion } from "motion/react";
@@ -101,6 +102,8 @@ export default function App() {
             <ASINetwork nodes={telemetry.asi_nodes} drift={telemetry.physics.entropy} />
           </div>
         )}
+
+        <PlanetarySectors data={telemetry} />
       </div>
 
       {/* Right Sidebar: Terminal & Controls */}

@@ -5,6 +5,7 @@ import { createServer as createViteServer } from "vite";
 import { GoogleGenAI } from "@google/genai";
 import path from "path";
 import fs from "fs";
+import { spawn } from "child_process";
 
 async function startServer() {
   const app = express();
@@ -20,6 +21,39 @@ async function startServer() {
     { id: "astra", name: "Project Astra", role: "Real-time Multimodal Perception", recent_activity: 100 },
     { id: "notebooklm", name: "NotebookLM", role: "Source-Grounded Semantic Synthesis", recent_activity: 100 },
   ];
+
+  let latestPythonData: any = null;
+
+  // Attempt to spawn Python process
+  let pythonProcess;
+  try {
+    pythonProcess = spawn("python3", ["stream_telemetry.py"]);
+    
+    pythonProcess.stdout.on("data", (data) => {
+      try {
+        const lines = data.toString().split("\n").filter(Boolean);
+        for (const line of lines) {
+          latestPythonData = JSON.parse(line);
+        }
+      } catch (e) {
+        console.error("Failed to parse python stdout:", e);
+      }
+    });
+
+    pythonProcess.stderr.on("data", (data) => {
+      console.warn("Python STDERR:", data.toString());
+    });
+
+    pythonProcess.on("close", (code) => {
+      console.log(`Python process exited with code ${code}`);
+    });
+
+    pythonProcess.on("error", (err) => {
+      console.error("Failed to spawn python process:", err.message);
+    });
+  } catch (err: any) {
+    console.error("Spawning process threw error:", err.message);
+  }
 
   // SSE Endpoint for telemetry streaming (Simulating Akkurat/AtomTN runtime)
   app.get("/api/telemetry", (req, res) => {
@@ -43,7 +77,8 @@ async function startServer() {
         recent_activity: Math.max(0, n.recent_activity - 5)
       }));
 
-      const payload = {
+      // Base payload simulating Akkurat
+      const payload: any = {
         tick,
         ts: new Date().toISOString(),
         global_state_norm: (Math.random() * 2 + 10).toFixed(4),
@@ -71,6 +106,12 @@ async function startServer() {
           link_strength: n.recent_activity > 0 ? (n.recent_activity / 100) : 0.1 
         }))
       };
+
+      // Fuse real python data if available
+      if (latestPythonData && !latestPythonData.error) {
+        payload.physics.entropy = latestPythonData.atom_features_norm.toFixed(4);
+        payload.global_state_norm = latestPythonData.tcfc_state_norm.toFixed(4);
+      }
 
       res.write(`data: ${JSON.stringify(payload)}\n\n`);
     };
