@@ -57,34 +57,34 @@ To run the AI features (Intent Orchestration), you will need a valid **Gemini AP
 The repository includes the full suite of Python scripts required to run the neuromorphic cognitive model and governed digital twin:
 
 ### Core Cognitive & Twin Runtime
-- `digital_twin_kernel.py`: Governed digital twin kernel and tree tensor network backend.
-- `cognitive_lobe_runtime.py`: Production composition layer for the 5-domain cognitive runtime.
-- `atom_adapter_runtime.py`: Bridge between the AtomTN neuromorphic reservoir and Akkurat's governed digital twin kernel.
-- `akkurat_atom_hybrid.py`: Hybrid orchestrator that fuses AtomTN reservoir features with a CfC controller and Akkurat twin.
+- `digital_twin_kernel.py`: Production CPU-first Governed Digital Twin substrate for cognitive modeling. Handles fixed-width latent-state trees, heterogeneous deterministic projections, and governed action execution pipelines.
+- `cognitive_lobe_runtime.py`: Production composition layer for the 5-domain cognitive architecture. Establishes native neural lobes, phase-synchronous signal routing, and dynamic neural assemblies.
+- `atom_adapter_runtime.py`: Production-oriented bridge between the AtomTN neuromorphic reservoir family and Akkurat's governed digital twin kernel, featuring graceful degradation and CPU-safe fallback.
+- `akkurat_atom_hybrid.py`: Production-ready orchestrator that fuses AtomTN neuromorphic reservoir features, a lightweight tensorized CfC controller, and Akkurat digital twin governance.
 
 ### Neural Substrates (NCP & CfC)
-- `ncp.py`: Tensorized Neural Circuit Policy (NCP) recurrent neural substrate.
-- `cfc.py`: Tensorized Closed-form Continuous-time (TCfC) neural substrate.
-- `atom_ncp.py`: Quantum Neural Circuit Policy backed by the AtomTN neuromorphic reservoir.
-- `atom_cfc.py`: Quantum Closed-form Continuous-time Policy backed by the AtomTN neuromorphic reservoir.
+- `ncp.py`: Tensorized Neural Circuit Policy (NCP) recurrent neural substrate. Provides stable continuous-time hidden dynamics with adaptive time constants.
+- `cfc.py`: Tensorized Closed-form Continuous-time (TCfC) neural substrate. Offers multi-cell dynamics with bounded state updates and MPO-backed cell backbones.
+- `atom_ncp.py`: Production-compatible Quantum Neural Circuit Policy backed by the AtomTN neuromorphic reservoir, incorporating discrete sparse deterministic encoders.
+- `atom_cfc.py`: Quantum Closed-form Continuous-time Policy. Maps holographic feature extraction into classical multi-cell heads.
 
 ### AtomTN Neuromorphic Reservoir
-- `neuromorphic.py`: Holographic Liquid State Machine (HLSM) powered by AtomTN.
-- `atom.py`: Core Atom wrapper and simulation controller.
-- `tn.py`: Unified Tensor Network Library (TT/MPO + Tucker operations).
-- `ttn_state.py`: Tree Tensor Network (TTN) state container and generic tensor contraction operations.
-- `flow.py`: Scalar and noncommutative flow solvers and diagnostics.
-- `hamiltonian.py`: Hamiltonian building rules and observables setup.
-- `evolve.py`: TTN time evolution runtime (legacy and RK/Lie-Trotter step methods).
-- `geometry.py`: Spatial graph and k-ary spatial tree (e.g., TetraMesh64) compilation.
-- `apply.py`: Quantum operator application logic and direct sum zip-up layer.
-- `fiber.py`: Local fiber scheduling and basis construction for leaves.
-- `fuzzy_backend.py`: Fuzzy SU(2) and non-commutative matrix-valued calculus representations.
-- `holonomy.py`: Adjoint-frame transport for non-commutative flow edges.
-- `projection.py`: Fuzzy k -> local d holographic compression and projections.
-- `vibration.py`: Phonon bath physics and vibration grid models.
-- `environments.py`: Cached TTN environments and bottom-up/top-down message passing.
-- `curvature.py`: Curvature and flow-derived score utilities.
-- `schedules.py`: Generic scheduling utilities for score and integer parameter mappings.
-- `constraints.py`: Operator-basis constraints/hooks (e.g., AdinkraConstraint).
-- `math_utils.py`: Safe, fast primitive math operations and dense tensor algebra helpers.
+- `neuromorphic.py`: Holographic Liquid State Machine (HLSM) powered by AtomTN. Translates the physics manifold into a robust reservoir computing framework.
+- `atom.py`: Core Atom wrapper and simulation controller, weaving geometry, TTS state, vibration, and flow simulations into a unified API.
+- `tn.py`: Unified Tensor Network Library (TT/MPO + Tucker operations). Provides robust CPU-first randomized SVDs and TSQR orthogonalization.
+- `ttn_state.py`: Production TTN state container and contraction substrate providing QR canonicalization and parent-bond SVD logic.
+- `apply.py`: AtomTN Hamiltonian application providing fast scaffold approximations and exact direct-sum zip-up abstractions.
+- `hamiltonian.py`: Extracts AtomTN flow, vibration, and projection variables into concrete CompiledTreeOperator terms.
+- `evolve.py`: TTN time evolution runtime implementing robust integration schemes (Euler, RK4, Lie-Trotter splittings) over tensor manifolds.
+- `flow.py`: Scalar and noncommutative flow solvers. Calculates discrete graph divergence and edge energies along directed connections.
+- `geometry.py`: Deterministic geometry substrate mapping regular spatial architectures (e.g. TetraMesh64) and k-ary spatial tree compilations.
+- `fiber.py`: Local Hilbert-space dimension policy. Controls dynamic fiber scaling, operator bases, and projection filtering.
+- `fuzzy_backend.py`: Fuzzy SU(2) noncommutative matrix-valued calculus representations and twisted reality unitary maps.
+- `holonomy.py`: Adjoint-frame transport converters tracking matrix-valued NC edge flows into stable SO(3) rotations.
+- `projection.py`: Holographic fuzzy compression. Uses Procrustes eigenbasis alignment to map fuzzy spaces bounds onto local environments.
+- `vibration.py`: Phonon bath physics. Supplies deterministic Fibonacci and Fractal spectral density grids.
+- `environments.py`: Cached TTN environment backbone for efficient norm-messages and operator-inserted direct paths.
+- `curvature.py`: Physics-specific curvature score analysis derived from flow energy, divergence, and SU(2) generator magnitudes.
+- `schedules.py`: Score-agnostic scheduling converting scalars to bounded TTN truncation ranges via minmax or zscore logic.
+- `constraints.py`: Operator-basis constraints, producing deterministic Pauli and Hermitian group elements.
+- `math_utils.py`: Safe, fast primitive operations guarding finite-valuations, Hermitian symmetries, and Hilbert-Schmidt calculations.

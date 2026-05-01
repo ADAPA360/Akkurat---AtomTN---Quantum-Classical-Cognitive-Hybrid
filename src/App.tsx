@@ -2,9 +2,10 @@ import React, { useEffect, useState, useRef } from "react";
 import ASINetwork from "./components/ASINetwork";
 import LobeDashboard from "./components/LobeDashboard";
 import PlanetarySectors from "./components/PlanetarySectors";
+import AkkuratStackPreview from "./components/AkkuratStackPreview";
 import { TelemetryPayload } from "./types";
-import { Terminal, Cpu, Database, Command, Settings, Key, X } from "lucide-react";
-import { motion } from "motion/react";
+import { Terminal, Cpu, Database, Command, Settings, Key, X, Layers } from "lucide-react";
+import { motion, AnimatePresence } from "motion/react";
 
 export default function App() {
   const [telemetry, setTelemetry] = useState<TelemetryPayload | null>(null);
@@ -12,6 +13,7 @@ export default function App() {
   const [apiKey, setApiKey] = useState(localStorage.getItem('gemini_api_key') || '');
   const [showSettings, setShowSettings] = useState(false);
   const [isInjecting, setIsInjecting] = useState(false);
+  const [showStack, setShowStack] = useState(false);
   const [logs, setLogs] = useState<string[]>([
     "[SYSTEM] Akkurat / AtomTN Digital Twin Initialized.",
     "[SYSTEM] TetraMesh64 Substrate mapped to Google Cloud infrastructure.",
@@ -116,13 +118,22 @@ export default function App() {
             </div>
             <p className="text-[10px] uppercase font-mono text-slate-500">Inject natural language to bend the quantum manifold and command ASI execution.</p>
           </div>
-          <button 
-            onClick={() => setShowSettings(true)}
-            className="p-1.5 text-slate-500 hover:text-slate-300 hover:bg-slate-800 rounded transition-colors"
-            title="App Settings"
-          >
-            <Settings size={16} />
-          </button>
+          <div className="flex items-center gap-2">
+            <button 
+              onClick={() => setShowStack(true)}
+              className="p-1.5 text-slate-500 hover:text-slate-300 hover:bg-slate-800 rounded transition-colors"
+              title="Akkurat Script Stack"
+            >
+              <Layers size={16} />
+            </button>
+            <button 
+              onClick={() => setShowSettings(true)}
+              className="p-1.5 text-slate-500 hover:text-slate-300 hover:bg-slate-800 rounded transition-colors"
+              title="App Settings"
+            >
+              <Settings size={16} />
+            </button>
+          </div>
         </div>
 
         <div className="flex-1 p-4 font-mono text-[10px] leading-relaxed text-slate-300 overflow-y-auto bg-[#0a0a0f]">
@@ -170,7 +181,12 @@ export default function App() {
       </div>
 
       {/* Settings Modal */}
-      {showSettings && (
+      <AnimatePresence>
+        {showStack && <AkkuratStackPreview onClose={() => setShowStack(false)} />}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {showSettings && (
         <div className="absolute inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <motion.div 
             initial={{ opacity: 0, scale: 0.95 }}
@@ -222,7 +238,8 @@ export default function App() {
             </div>
           </motion.div>
         </div>
-      )}
+        )}
+      </AnimatePresence>
     </div>
   );
 }
