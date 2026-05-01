@@ -24,37 +24,6 @@ async function startServer() {
 
   let latestPythonData: any = null;
 
-  // Attempt to spawn Python process
-  let pythonProcess;
-  try {
-    pythonProcess = spawn("python3", ["stream_telemetry.py"]);
-    
-    pythonProcess.stdout.on("data", (data) => {
-      try {
-        const lines = data.toString().split("\n").filter(Boolean);
-        for (const line of lines) {
-          latestPythonData = JSON.parse(line);
-        }
-      } catch (e) {
-        console.error("Failed to parse python stdout:", e);
-      }
-    });
-
-    pythonProcess.stderr.on("data", (data) => {
-      console.warn("Python STDERR:", data.toString());
-    });
-
-    pythonProcess.on("close", (code) => {
-      console.log(`Python process exited with code ${code}`);
-    });
-
-    pythonProcess.on("error", (err) => {
-      console.error("Failed to spawn python process:", err.message);
-    });
-  } catch (err: any) {
-    console.error("Spawning process threw error:", err.message);
-  }
-
   // SSE Endpoint for telemetry streaming (Simulating Akkurat/AtomTN runtime)
   app.get("/api/telemetry", (req, res) => {
     res.setHeader("Content-Type", "text/event-stream");
